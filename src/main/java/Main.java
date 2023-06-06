@@ -1,6 +1,36 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    public static double getDouble (Scanner scanner) {
+        try {
+            double num = scanner.nextDouble();
+            return num;
+        }
+        catch (InputMismatchException e) {
+            System.out.println("Это некорректное значение для подсчёта!");
+            return 0;
+        }
+    }
+    public static class Formatter {
+        void printWithRubles (double x) {
+            int cutPoint = (int) Math.floor(x);
+            int rest = cutPoint % 10;
+            int rest1 = cutPoint % 100;
+            if (rest1 >= 10 && rest1 <= 19) {
+                System.out.printf("%.2f Рублей", x);
+            }
+            else if (rest == 0 || rest >= 5 && rest <= 9) {
+                System.out.printf("%.2f Рублей", x);
+            }
+            else if (rest == 1) {
+                System.out.printf("%.2f Рубль", x);
+            }
+            else if (rest >= 2 && rest <= 4) {
+                System.out.printf("%.2f Рубля", x);
+            }
+        }
+    }
     public static class Product {
         String name;
         double price;
@@ -51,15 +81,22 @@ public class Main {
             }
             else {
                 System.out.println("Введите стоимость товара");
-                double productPrice = scanner.nextDouble();
-                Product newProduct = new Product(productName, productPrice);
-                calc.addProduct(newProduct);
+                double productPrice = getDouble(scanner);
+                if (productPrice > 0) {
+                    Product newProduct = new Product(productName, productPrice);
+                    calc.addProduct(newProduct);
+                }
             }
         }
         System.out.println("Добавленные товары:");
         System.out.println(calc.productNames);
         double result = calc.divideByAll(guests);
-        System.out.printf("Каждый должен заплатить по: %.2f", result);
+        System.out.print("Каждый должен заплатить по: ");
+
+        Formatter f = new Formatter();
+        f.printWithRubles(result);
+
+        scanner.close();
     }
 }
 
