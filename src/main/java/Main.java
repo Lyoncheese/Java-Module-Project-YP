@@ -8,7 +8,17 @@ public class Main {
             return num;
         }
         catch (InputMismatchException e) {
-            System.out.println("Это некорректное значение для подсчёта!");
+            scanner.next();
+            return 0;
+        }
+    }
+    public static int getInt (Scanner scanner) {
+        try {
+            int num = scanner.nextInt();
+            return num;
+        }
+        catch (InputMismatchException e) {
+            scanner.next();
             return 0;
         }
     }
@@ -61,16 +71,15 @@ public class Main {
         int guests;
         while (true) {
             System.out.println("На сколько человек необходимо разделить счёт?");
-            guests = scanner.nextInt();
+            guests = getInt(scanner);
             if (guests > 1) {
-                break;//тут работаем с калькулятором
+                break;
             } else if (guests == 1) {
                 System.out.println("нет смысла ничего считать и делить");
             } else {
                 System.out.println("Это некорректное значение для подсчёта");
             }
         }
-        // System.out.println("Вас " + guests + " человек");
 
         Calculator calc = new Calculator();
         while (true) {
@@ -80,11 +89,17 @@ public class Main {
                 break;
             }
             else {
-                System.out.println("Введите стоимость товара");
-                double productPrice = getDouble(scanner);
-                if (productPrice > 0) {
-                    Product newProduct = new Product(productName, productPrice);
-                    calc.addProduct(newProduct);
+                while (true) {
+                    System.out.println("Введите стоимость товара");
+                    double productPrice = getDouble(scanner);
+                    if (productPrice > 0) {
+                        Product newProduct = new Product(productName, productPrice);
+                        calc.addProduct(newProduct);
+                        break;
+                    }
+                    else {
+                        System.out.println("Это некорректное значение для подсчёта");
+                    }
                 }
             }
         }
