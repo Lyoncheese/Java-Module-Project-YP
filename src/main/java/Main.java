@@ -4,8 +4,7 @@ import java.util.Scanner;
 public class Main {
     public static double getDouble (Scanner scanner) {
         try {
-            double num = scanner.nextDouble();
-            return num;
+            return scanner.nextDouble();
         }
         catch (InputMismatchException e) {
             scanner.next();
@@ -14,8 +13,7 @@ public class Main {
     }
     public static int getInt (Scanner scanner) {
         try {
-            int num = scanner.nextInt();
-            return num;
+            return scanner.nextInt();
         }
         catch (InputMismatchException e) {
             scanner.next();
@@ -30,13 +28,13 @@ public class Main {
             if (rest1 >= 10 && rest1 <= 19) {
                 System.out.printf("%.2f Рублей", x);
             }
-            else if (rest == 0 || rest >= 5 && rest <= 9) {
+            else if (rest == 0 || rest >= 5) {
                 System.out.printf("%.2f Рублей", x);
             }
             else if (rest == 1) {
                 System.out.printf("%.2f Рубль", x);
             }
-            else if (rest >= 2 && rest <= 4) {
+            else if (rest >= 2) {
                 System.out.printf("%.2f Рубля", x);
             }
         }
@@ -63,11 +61,9 @@ public class Main {
         double divideByAll (int guests) {
             return productPrices / guests;
         }
-
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static int getGuests(Scanner scanner) {
         int guests;
         while (true) {
             System.out.println("На сколько человек необходимо разделить счёт?");
@@ -80,8 +76,10 @@ public class Main {
                 System.out.println("Это некорректное значение для подсчёта");
             }
         }
+        return guests;
+    }
 
-        Calculator calc = new Calculator();
+    public static void getProducts(Scanner scanner, Calculator calc) {
         while (true) {
             System.out.println("Введите наименование товара или 'Завершить'");
             String productName = scanner.next();
@@ -103,6 +101,15 @@ public class Main {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int guests = getGuests(scanner);
+
+        Calculator calc = new Calculator();
+        getProducts(scanner, calc);
+
         System.out.println("Добавленные товары:");
         System.out.println(calc.productNames);
         double result = calc.divideByAll(guests);
